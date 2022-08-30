@@ -46,7 +46,7 @@ public class Kokk extends Thread {
                 brett.brettMedBurger().add(hamseburger);
                 System.out.println(navn + " (Kokk) legger på hamburger ◖" + brett.getCounter() + "◗. Brett: " + Arrays.toString(brett.brettMedBurger().toArray()));
                 brett.setCounter(brett.getCounter() + 1);
-                notifyAll();
+
             } catch (Exception e) {
             }
 

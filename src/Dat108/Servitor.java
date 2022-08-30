@@ -21,7 +21,7 @@ public class Servitor extends Thread {
                     + Arrays.toString(brett.brettMedBurger().toArray()));
         }
     }
-    
+
 
     public int slett() {
 
