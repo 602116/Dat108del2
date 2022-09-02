@@ -1,6 +1,8 @@
 package Dat108;
 
 import java.util.Arrays;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Servitor extends Thread {
 
@@ -14,29 +16,39 @@ public class Servitor extends Thread {
         this.navn = navn;
     }
 
+
+
+
     @Override
     public void run() {
         while (flag) {
-            System.out.println(navn + " (Servitør) tar av hamburger ◖" + slett() + "◗. Brett: "
-                    + Arrays.toString(brett.brettMedBurger().toArray()));
+            slett();
+            try {
+                Thread.sleep(ThreadLocalRandom.current().nextLong(2,6) * 1000);
+            } catch (InterruptedException e) {
+            }
         }
     }
 
 
-    public int slett() {
+    public void slett() {
 
         synchronized (brett) {
-            brett.notify();
-            if (brett.brettMedBurger().size() == 0) {
+            while (brett.brettMedBurger().size() == 0) {
                 System.out.println("Brett tomt");
                 try {
-                    wait();
+                    brett.wait();
                 } catch (Exception e) {
                 }
             }
+
+
             Hamburger ny = brett.brettMedBurger().remove();
             int hamNummer = ny.getNummer();
-            return hamNummer;
+            System.out.println(navn + " (Servitør) tar av hamburger ◖" + hamNummer + "◗. Brett: "
+                    + Arrays.toString(brett.brettMedBurger().toArray()));
+            brett.notifyAll();
+
 
         }
     }

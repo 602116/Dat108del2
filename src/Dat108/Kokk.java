@@ -15,14 +15,17 @@ public class Kokk extends Thread {
         this.navn = navn;
     }
 
-    Random random = ThreadLocalRandom.current();
-    int randomNumber = random.nextInt();
+
 
     @Override
     public void run() {
 
         while (flag) {
             lagBurger();
+            try {
+                Thread.sleep(ThreadLocalRandom.current().nextLong(2,6) * 1000);
+            } catch (InterruptedException e) {
+            }
         }
 
     }
@@ -31,21 +34,23 @@ public class Kokk extends Thread {
     public void lagBurger() {
 
         synchronized (brett) {
-            brett.notify();
 
             try {
 
-                if (brett.brettMedBurger().size() == brett.getKap()) {
-                    wait();
+                while (brett.brettMedBurger().size() == brett.getKap()) {
+                    System.out.println("Brett er fullt, "+ navn +" (Kokk) venter på servitør!");
+                    brett.wait();
+
                 }
-                randomNumber = 2 + random.nextInt(4);
-                Thread.sleep(randomNumber * 1000);
+
+
 
                 Hamburger hamseburger = new Hamburger();
                 hamseburger.setNummer(brett.getCounter());
                 brett.brettMedBurger().add(hamseburger);
                 System.out.println(navn + " (Kokk) legger på hamburger ◖" + brett.getCounter() + "◗. Brett: " + Arrays.toString(brett.brettMedBurger().toArray()));
                 brett.setCounter(brett.getCounter() + 1);
+                brett.notifyAll();
 
             } catch (Exception e) {
             }
