@@ -1,13 +1,12 @@
 package Dat108;
 
 import java.util.Arrays;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Kokk extends Thread {
 
-    private HamburgerBrett brett;
-    private String navn;
+    private final HamburgerBrett brett;
+    private final String navn;
     public boolean flag = true;
 
     Kokk(HamburgerBrett brett, String navn) {
@@ -16,18 +15,16 @@ public class Kokk extends Thread {
     }
 
 
-
     @Override
     public void run() {
 
         while (flag) {
             lagBurger();
             try {
-                Thread.sleep(ThreadLocalRandom.current().nextLong(2,6) * 1000);
+                Thread.sleep(ThreadLocalRandom.current().nextLong(2, 6) * 1000);
             } catch (InterruptedException e) {
             }
         }
-
     }
 
 
@@ -38,12 +35,10 @@ public class Kokk extends Thread {
             try {
 
                 while (brett.brettMedBurger().size() == brett.getKap()) {
-                    System.out.println("Brett er fullt, "+ navn +" (Kokk) venter på servitør!");
+                    System.out.println("Brett er fullt, " + navn + " (Kokk) venter på servitør!");
                     brett.wait();
 
                 }
-
-
 
                 Hamburger hamseburger = new Hamburger();
                 hamseburger.setNummer(brett.getCounter());

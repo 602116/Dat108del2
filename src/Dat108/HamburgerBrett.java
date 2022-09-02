@@ -6,13 +6,13 @@ import java.util.Queue;
 public class HamburgerBrett {
 
     private int counter = 1;
-    private int kap;
+    private final int kap;
 
     public HamburgerBrett(int kap) {
         this.kap = kap;
     }
 
-    private Queue<Hamburger> ko = new LinkedList<>();
+    private final Queue<Hamburger> ko = new LinkedList<>();
 
     public Queue<Hamburger> brettMedBurger() {
         return ko;
